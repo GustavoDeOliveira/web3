@@ -1,0 +1,109 @@
+eXtensible Markup Language (XML)
+	https://www.w3schools.com/xml/default.asp
+	trasporte de dados, independente de hardware e software (texto plano), autodescritiva, estensível (aplicações devem continuar funcionando se elementos são adicionados ou removidos), legível para máquinas e pessoas
+	hierárquico (root, child, subchild, parent, sibling)
+	prólogo <?xml version="1.0" encoding="UTF-8"?> e root element
+	tags customizáveis, sensíveis à caixa, que precisam ser fechadas <br/> e corretamente aninhadas <a><b></b></a>
+	valores dos atributos abraçados por ""
+	caracteres especiais escapados &lt; &quot;
+	<!-- cometário -->
+	sequências de " " são preservadas
+	final de linha com \n
+	nomenclatura: não pode começar com "xml" nem conter " " ou ":"
+		utilizar nomes curtos: <book_title> vs <the_title_of_the_book>
+		evitar confusão de subtração: "first-name" vs "first"-"name"
+		evitar confusão de propriedades: "first.name" vs "first"."name"
+		acentuação permitida se existe suporte
+	atributos vs elementos
+		elementos podem ser multivalorados
+		elementos são hierárquicos (árvores)
+		atributos com metadados são bons para diferenciar elementos (id)
+		atributos engessam a estrutura e dificultam atualizações/alterações
+	namespaces, atributo xmlns e qnames
+		<root>
+			<table xmlns="http://www.w3.org/TR/html4/"><tr><td>1</td><td>2</td></tr></table>
+			<table xmlns="http://site/furniture"><name>x</name><price>1000</price></table>
+		</root>
+
+		<root>
+			<h:table xmlns:h="http://www.w3.org/TR/html4/"><h:tr><h:td>1</h:td><h:td>2</h:td></h:tr></h:table>
+			<f:table xmlns:f="http://site/furniture"><f:name>x</f:name><f:price>1000</f:price></f:table>
+		</root>
+
+		<root xmlns:h="http://www.w3.org/TR/html4/" xmlns:f="http://site/furniture">
+			<h:table><h:tr><h:td>1</h:td><h:td>2</h:td></h:tr></h:table>
+			<f:table><f:name>x</f:name><f:price>1000</f:price></f:table>
+		</root>
+	validação
+		Document Type Definition (DTD)
+			https://www.w3schools.com/xml/xml_dtd_intro.asp
+		XML Schema Definition (XSD)
+			https://www.w3schools.com/xml/schema_intro.asp
+
+Regular Expressions
+	https://www.w3schools.com/jsref/jsref_obj_regexp.asp
+	* apenas case-sensitive no XSD
+
+	inteiro		[0-9]+
+	real		[0-9]*\.?[0-9]+
+	literal		[a-z]+( [a-z]+)*
+	nome		[a-z]+( [a-z]+)+
+	data		(19|2[0-9])[0-9]{2}-(0?[1-9]|1[0-2])-(0?[1-9]|[1-2][0-9]|3[0-1])
+	e-mail		[a-z0-9]+([_\.][a-z0-9]+)*@[a-z0-9]+([_\.][a-z0-9]+)*\.[a-z]{3}(\.[a-z]{2})?
+	telefone	(0[0-9]{2})?[0-9]{8,9}
+	UF			(AC|AL|AM|AP|BA|CE|DF|ES|GO|MA|MG|MS|MT|PA|PB|PE|PI|PR|RJ|RN|RO|RR|RS|SC|SE|SP|TO)
+
+Document Object Model (DOM)
+	https://www.w3schools.com/xml/xml_dom.asp
+	https://www.w3schools.com/xml/dom_nodetype.asp
+
+XPath
+	https://www.w3schools.com/xml/xpath_intro.asp
+	https://www.w3schools.com/xml/xsl_functions.asp
+
+***** http://edutechwiki.unige.ch/en/XPath_tutorial_-_basics
+
+Last five elements of a list
+author[(last()-4)<=position()) and (position()<=last())]
+
+Compute the average of participant's qualifications
+sum(.//participant/qualification) div count(.//participant/qualification)
+
+First names containing 'nat'
+//participant[contains(FirstName,'nat')]
+//participant[contains(translate(FirstName,'N','n'),'nat')]
+
+***** http://www.zvon.org/xxl/XPathTutorial/General/examples.html
+
+Elements name which have 3 ancestors
+/*/*/*/name
+
+Elements participant without an attribute
+//participant[not(@*)]
+
+Elements with 3 children
+//*[count(*)=3]
+
+Elements which have 2 children account
+//*[count(account)=2]
+
+Elements name of which contain person
+//*[contains(name(),'person')]
+
+Parents of name element
+//DDD/name::*
+
+***** http://www.tizag.com/xmlTutorial/xpathpredicate.php
+
+Select current element instead of children with ".":
+//account/amount[. < 20]
+
+***** https://msdn.microsoft.com/en-us/library/ms256074%28v=vs.110%29.aspx
+
+Elements price of either book or magazine elements
+(book | magazine)/price
+
+***** http://stackoverflow.com/questions/963451/working-with-nested-xpath-predicates-refined
+
+***** http://stackoverflow.com/questions/36839614/difficult-xpath-with-more-conditions
+

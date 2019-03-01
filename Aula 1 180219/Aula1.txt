@@ -1,0 +1,46 @@
+Electronic data interchange (EDI) = transporte de dados
+	tipos
+		largura fixa/proprietários
+			http://www.receita.fazenda.gov.br/PessoaFisica/IRPF/Leiautes/default.htm
+		Comma-Separated Values (CSV)
+			dados abraçados por ""
+			campos multivalorados com outro separador
+			campos multivalorados com mesmo separador e abraçados por ""
+			escapar separador e " dentro dos dados quando não abraçado por ""
+		Extensible Markup Language (XML)
+			https://www.w3schools.com/xml/
+			prólogo <?xml version="1.0" encoding="UTF-8"?>
+			tag, element, attribute
+			tags sensíveis à caixa customizáveis que precisam ser fechadas <br/> e corretamente aninhadas <a><b></b></a>
+			caracteres especiais escapados nos valores dos elementos &lt; &quot;
+			valores dos atributos abraçados por ""
+		JavaScript Object Notation (JSON)
+			https://www.w3schools.com/js/js_json_intro.asp
+			pares atributo:valor separados por ,
+			{} = object
+			[] = array
+			* utiliza menos bytes que XML
+	base64/mime
+		https://en.wikipedia.org/wiki/Base64
+
+		import java.util.Base64; //Java8
+		import java.nio.charset.StandardCharsets;
+		byte[] encoded = Base64.getEncoder().encode("teste".getBytes(StandardCharsets.UTF_8));
+		System.out.println(new String(encoded));
+		byte[] decoded = Base64.getDecoder().decode(encoded);
+		System.out.println(new String(decoded));
+
+	md5sum para validação
+		https://en.wikipedia.org/wiki/MD5
+
+		import java.security.*; //Java8
+		import java.nio.charset.StandardCharsets;
+		byte[] hash = MessageDigest.getInstance("MD5").digest("teste".getBytes(StandardCharsets.UTF_8));
+		System.out.println(new String(hash));
+		for (int i = 0; i < hash.length; i++) System.out.printf("%02x",Byte.toUnsignedInt(hash[i]));
+		System.out.println();
+
+Conversores
+	https://codebeautify.org/xmltojson
+	https://www.freeformatter.com/xml-to-json-converter.html
+

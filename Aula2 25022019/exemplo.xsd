@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="https://www.w3schools.com"
+xmlns="https://www.w3schools.com"
+elementFormDefault="qualified">
+
+<!-- COMO VAI VIR -->
+<!--
+<pessoas>
+	<pessoa>
+		<rg></rg>
+		<cpf></cpf>
+		<nascimento></nascimento>
+		<nome></nome>
+		<telefones>
+				<fixo></fixo>
+				<celular></celular>
+		</telefones>
+		<emails>
+			<email></email>
+		</emails>
+	</pessoa>
+	<cliente>
+		<contrato id=""></contrato>
+		<seguro></seguro>		
+	</cliente>
+</pessoas>
+-->
+
+
+<!-- **************************** COMO TEM QUE VIR **************************** -->
+<xs:simpleType name="rgType">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="[A-Za-z0-9]{10}"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="cpfType">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="[0-9]{11}"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="dataType">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="(19|2[0-9])[0-9]{2}-(0?[1-9]|1[0-2])-(0?[1-9]|[1-2][0-9]|3[0-1])"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="nomeType">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="[A-Z][a-z]+( [A-Z][a-z]+)+"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="fixoType">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="[23][0-9]{7}"/> <!-- 23 Para telefones de Rio Grande  [0-9]{8 para demais sem codigo de area}-->
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="celularType">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="[9][89][0-9]{7}"/> <!-- Primeiro digito 9 o segundo 8 ou 9 Para telefones de Rio Grande sem codigo de area}-->
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="emailType">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="[a-z0-9]+([_\.][a-z0-9]+)*@[a-z0-9]+([_\.][a-z0-9]+)*\.[a-z]{3}(\.[a-z]{2})?"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name"pessoa">
+	<xs:sequence> <!-- Tem que vir na sequencia -->
+		<xs:element name"rg" type="rgType" minOccurs="1" maxOccurs="1"><!-- Por padrão já vem minOccurs="1" maxOccurs="1" mas pode colocar -->
+		<xs:element name"cpf" type="cpfType">
+		<xs:element name"nascimento" type="dataType">
+		<xs:element name"nome" type="nomeType">
+		<xs:element name"emails">
+			<xs:complexType>
+				<xs:sequence> <!-- Tem que vir na sequencia -->
+					<xs:element name"email" type="emailType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+		<xs:element name"telefones">
+			<xs:complexType>
+				<xs:all><!-- Tem que vir um dos dois -->
+					<xs:element name"fixo" type="fixoType" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name"celular" type="celularType" minOccurs="0" maxOccurs="unbounded">
+				</xs:all>
+			</xs:complexType>
+		</xs:element>
+	</xs:sequence>
+</xs:complexType>
+
+<xs:simpleType name="dinheiroType">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="R\x24 [0-9]*\.?[0-9]+"/>
+	</xs:restriction>
+</xs:simpleType>	
+
+<xs:simpleType name="idType">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="[0-9]{4}"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="contratoType">
+	<xs:simpleContent>
+		<xs:extension base="dinheiroType">
+			<xs:attribute name="id" type="idType" use="requered"/>
+		</xs:extension>
+	</xs:simpleContent>
+</xs:complexType>
+
+<xs:complexType name="clienteType">
+	<xs:complexContent>
+		<xs:extension base="pessoaType">
+			<xs:sequence>
+				<xs:element name="contrato" type="contratoType"/>
+				<xs:element name="seguro" type="dinheiroType"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+
+<!-- **************************** OQUE TEM QUE VIR **************************** -->
+<xs:element name"pessoas">
+	<xs:complexType>
+		<xs:all> 
+			<xs:element name"pessoa" type="pessoaType" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element name"cliente" type="clienteType" minOccurs="0" maxOccurs="unbounded"/>		
+		</xs:all>
+	</xs:complexType>
+</xs:element>
+
+
+</xs:schema>
