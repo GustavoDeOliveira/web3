@@ -78,4 +78,5 @@ Myreli		3	5	13
 Ederson		1	4	9
 Zamberlan	5	8	12
 Oleiro		4	10	13
+Gustavo		8	10	13
 

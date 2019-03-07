@@ -105,28 +105,6 @@ elementFormDefault="qualified">
 	</xs:restriction>
 </xs:simpleType>
 
-<xs:complexType name"carga">
-	<xs:sequence>
-		<xs:element name"responsavel" type="xs:string">
-		<xs:element name"origem" type="xs:string">
-		<xs:sequence>
-			<xs:element name"container" type="containerType" minOccurs="0" maxOccurs="unbounded"/>
-		</xs:sequence>
-	</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name"container">
-	<xs:sequence>
-		<xs:element name"responsavel" type="xs:string">
-	</xs:sequence>
-	<xs:all>
-		<xs:element name"destino" type="xs:string">
-		<xs:element name"produto" type="xs:string">
-		<xs:element name"quantidade" type="xs:decimal">
-		<xs:element name"valor" type="xs:decimal">
-	</xs:all>
-</xs:complexType>
-
 <xs:simpleType name="dinheiroType">
 	<xs:restriction base="xs:string">
 		<xs:pattern value="R\x24 [0-9]*\.?[0-9]+"/>
@@ -138,6 +116,43 @@ elementFormDefault="qualified">
 		<xs:pattern value="[0-9]{4}"/>
 	</xs:restriction>
 </xs:simpleType>
+
+<xs:complexType name"containerType">
+	<xs:all>
+		<xs:element name"responsavel" type="xs:string">
+		<xs:element name"produto" type="xs:string">
+		<xs:element name"quantidade" type="xs:decimal">
+		<xs:element name"valor" type="xs:dinheiroType">
+	</xs:all>
+	<xs:simpleContent>
+		<xs:extension base="dinheiroType">
+			<xs:attribute name="id" type="idType" use="requered"/>
+		</xs:extension>
+	</xs:simpleContent>
+</xs:complexType>
+
+<xs:complexType name="mainContainerType">
+	<xs:complexContent>
+		<xs:extension base="containerType">
+			<xs:all>
+				<xs:element name"destino" type="xs:string">
+				<xs:sequence>
+					<xs:element name"container" type="containerType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:all>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name"cargaType">
+	<xs:sequence>
+		<xs:element name"responsavel" type="xs:string">
+		<xs:element name"origem" type="xs:string">
+		<xs:sequence>
+			<xs:element name"container" type="mainContainerType" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:sequence>
+</xs:complexType>
 
 <xs:complexType name="contratoType">
 	<xs:simpleContent>
@@ -159,14 +174,7 @@ elementFormDefault="qualified">
 </xs:complexType>
 
 <!-- **************************** OQUE TEM QUE VIR **************************** -->
-<xs:element name"pessoas">
-	<xs:complexType>
-		<xs:all> 
-			<xs:element name"pessoa" type="pessoaType" minOccurs="1" maxOccurs="unbounded"/>
-			<xs:element name"cliente" type="clienteType" minOccurs="0" maxOccurs="unbounded"/>		
-		</xs:all>
-	</xs:complexType>
-</xs:element>
+<xs:element name"carga" type="cargaType"/>
 
 
 </xs:schema>
