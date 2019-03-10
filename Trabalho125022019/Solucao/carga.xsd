@@ -63,17 +63,6 @@ elementFormDefault="qualified">
 
 
 <!-- **************************** COMO TEM QUE VIR **************************** -->
-<xs:simpleType name="rgType">
-	<xs:restriction base="xs:string">
-		<xs:pattern value="[A-Za-z0-9]{10}"/>
-	</xs:restriction>
-</xs:simpleType>
-
-<xs:simpleType name="cpfType">
-	<xs:restriction base="xs:string">
-		<xs:pattern value="[0-9]{11}"/>
-	</xs:restriction>
-</xs:simpleType>
 
 <xs:simpleType name="dataType">
 	<xs:restriction base="xs:string">
@@ -87,27 +76,9 @@ elementFormDefault="qualified">
 	</xs:restriction>
 </xs:simpleType>
 
-<xs:simpleType name="fixoType">
-	<xs:restriction base="xs:string">
-		<xs:pattern value="[23][0-9]{7}"/> <!-- 23 Para telefones de Rio Grande  [0-9]{8 para demais sem codigo de area}-->
-	</xs:restriction>
-</xs:simpleType>
-
-<xs:simpleType name="celularType">
-	<xs:restriction base="xs:string">
-		<xs:pattern value="[9][89][0-9]{7}"/> <!-- Primeiro digito 9 o segundo 8 ou 9 Para telefones de Rio Grande sem codigo de area}-->
-	</xs:restriction>
-</xs:simpleType>
-
-<xs:simpleType name="emailType">
-	<xs:restriction base="xs:string">
-		<xs:pattern value="[a-z0-9]+([_\.][a-z0-9]+)*@[a-z0-9]+([_\.][a-z0-9]+)*\.[a-z]{3}(\.[a-z]{2})?"/>
-	</xs:restriction>
-</xs:simpleType>
-
 <xs:simpleType name="dinheiroType">
 	<xs:restriction base="xs:string">
-		<xs:pattern value="R\x24 [0-9]*\.?[0-9]+"/>
+		<xs:pattern value="[0-9]*\.?[0-9]+"/>
 	</xs:restriction>
 </xs:simpleType>	
 
@@ -117,64 +88,47 @@ elementFormDefault="qualified">
 	</xs:restriction>
 </xs:simpleType>
 
-<xs:complexType name"containerType">
-	<xs:all>
-		<xs:element name"responsavel" type="xs:string">
-		<xs:element name"produto" type="xs:string">
-		<xs:element name"quantidade" type="xs:decimal">
-		<xs:element name"valor" type="xs:dinheiroType">
-	</xs:all>
+<xs:complexType name="quantidadeType">
 	<xs:simpleContent>
-		<xs:extension base="dinheiroType">
-			<xs:attribute name="id" type="idType" use="requered"/>
+		<xs:extension base="xs:decimal">
+			<xs:attribute name="unidade" type="xs:string" use="required"/>
 		</xs:extension>
 	</xs:simpleContent>
+</xs:complexType>
+
+<xs:complexType name="containerType">
+	<xs:sequence>
+		<xs:element name="responsavel" type="xs:string"/>
+		<xs:element name="produto" type="xs:string"/>
+		<xs:element name="quantidade" type="quantidadeType"/>
+		<xs:element name="valor" type="xs:decimal"/>
+	</xs:sequence>
+	<xs:attribute name="id" type="idType" use="required"/>
 </xs:complexType>
 
 <xs:complexType name="mainContainerType">
 	<xs:complexContent>
 		<xs:extension base="containerType">
-			<xs:all>
-				<xs:element name"destino" type="xs:string">
-				<xs:sequence>
-					<xs:element name"container" type="containerType" minOccurs="0" maxOccurs="unbounded"/>
-				</xs:sequence>
-			</xs:all>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
-
-<xs:complexType name"cargaType">
-	<xs:sequence>
-		<xs:element name"responsavel" type="xs:string">
-		<xs:element name"origem" type="xs:string">
-		<xs:sequence>
-			<xs:element name"container" type="mainContainerType" minOccurs="1" maxOccurs="unbounded"/>
-		</xs:sequence>
-	</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="contratoType">
-	<xs:simpleContent>
-		<xs:extension base="dinheiroType">
-			<xs:attribute name="id" type="idType" use="requered"/>
-		</xs:extension>
-	</xs:simpleContent>
-</xs:complexType>
-
-<xs:complexType name="clienteType">
-	<xs:complexContent>
-		<xs:extension base="pessoaType">
 			<xs:sequence>
-				<xs:element name="contrato" type="contratoType"/>
-				<xs:element name="seguro" type="dinheiroType"/>
+				<xs:element name="destino" type="xs:string"/>
+				<xs:element name="container" type="containerType" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:extension>
 	</xs:complexContent>
 </xs:complexType>
 
-<!-- **************************** OQUE TEM QUE VIR **************************** -->
-<xs:element name"carga" type="cargaType"/>
+<xs:complexType name="cargaType">
+	<xs:sequence>
+		<xs:element name="responsavel" type="xs:string"/>
+		<xs:element name="origem" type="xs:string"/>
+		<xs:sequence>
+			<xs:element name="container" type="mainContainerType" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:sequence>
+</xs:complexType>
+
+<!-- **************************** O QUE TEM QUE VIR **************************** -->
+<xs:element name="carga" type="cargaType"/>
 
 
 </xs:schema>
