@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<carga>
+<carga xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="https://www.w3schools.com"  
+      xsi:schemaLocation="https://www.w3schools.com carga.xsd">
 	<responsavel>Empresa 1 SA</responsavel>
 	<origem>Rio Grande</origem>
 	<container tipo="caixa" id="1">
